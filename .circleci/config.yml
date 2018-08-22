@@ -10,6 +10,8 @@ jobs:
       - image: docker:17.05.0-ce-git
     steps:
       - checkout
+      # We don't need remote Docker, but this gets the local Docker service started
+      - setup_remote_docker
       - run:
           name: Sign into Docker registry
           command: |
