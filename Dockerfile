@@ -11,7 +11,7 @@ RUN wget -O /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/
 RUN chmod +x /usr/local/bin/dumb-init
 
 # Copy shell scripts
-COPY bin /root/bin
+COPY bin /app/bin
 
 # Copy a hello world webpage
 COPY web/index.php /root/index.php
