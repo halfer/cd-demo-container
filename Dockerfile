@@ -10,6 +10,9 @@ RUN apk add php
 RUN wget -O /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.2/dumb-init_1.2.2_amd64
 RUN chmod +x /usr/local/bin/dumb-init
 
+# Copy shell scripts
+COPY bin /root/bin
+
 # Copy a hello world webpage
 COPY web/index.php /root/index.php
 
