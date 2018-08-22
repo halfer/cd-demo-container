@@ -12,6 +12,7 @@ RUN chmod +x /usr/local/bin/dumb-init
 
 # Copy shell scripts
 COPY bin /app/bin
+RUN chmod -R +x /app/bin
 
 # Copy a hello world webpage
 COPY web/index.php /root/index.php
