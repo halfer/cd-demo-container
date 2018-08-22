@@ -40,6 +40,8 @@ jobs:
           command: |
             apk update
             apk --update add php7 php7-phar openssl
+            # Give the PHP binary a nice name
+            ls -s /usr/bin/php7 /usr/bin/php
             cd /app && sh /app/install/composer.sh
             php /app/composer.phar install
       - run:
