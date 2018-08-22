@@ -57,9 +57,10 @@ jobs:
                 --name ${CIRCLE_PROJECT_REPONAME} \
                 registry.gitlab.com/halfercode/${CIRCLE_PROJECT_REPONAME}
       - run:
+          # Thanks to https://unix.stackexchange.com/a/349138
           name: Wait for container to be ready
           command: |
-            # Dummy command
+            timeout 10 bash -c 'until echo > /dev/tcp/localhost/8080; do sleep 0.5; done'
       - run:
           name: Run tests
           command: |
