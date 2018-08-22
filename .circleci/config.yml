@@ -26,9 +26,8 @@ jobs:
       - image: docker:17.05.0-ce-git
     steps:
       - checkout
-      - run:
-          name: Start the Docker service
-          command: service docker start
+      # We don't need remote Docker, but this gets the local Docker service started
+      - setup_remote_docker
       - run: *docker-sign-in
       - run:
           name: Build application Docker image
