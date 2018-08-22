@@ -2,6 +2,15 @@
 #
 # No real need for layer caching, this will be really quick to build
 
+# Some useful repeated stanzas
+
+docker-sign-in: &docker-sign-in
+  name: Sign into Docker registry
+  command: |
+    docker login -u halfercode -p ${GITLAB_CDDEMO_REGISTRY_TOKEN} registry.gitlab.com
+
+# Here are the jobs
+
 version: 2
 jobs:
   build:
@@ -12,10 +21,7 @@ jobs:
       - checkout
       # We don't need remote Docker, but this gets the local Docker service started
       - setup_remote_docker
-      - run:
-          name: Sign into Docker registry
-          command: |
-            docker login -u halfercode -p ${GITLAB_CDDEMO_REGISTRY_TOKEN} registry.gitlab.com
+      - run: *docker-sign-in
       - run:
           name: Build application Docker image
           command: |
@@ -25,3 +31,26 @@ jobs:
           name: Push Docker image
           command: |
             docker push registry.gitlab.com/halfercode/${CIRCLE_PROJECT_REPONAME}
+
+  # @todo This doesn't do any deploying yet, process needs designing and finishing
+  deploy:
+    working_directory: /app
+    docker:
+      - image: docker:17.05.0-ce-git
+    steps:
+      - run: *docker-sign-in
+
+# @todo Check that tagged and untagged builds run 'build'
+# @todo Check that deploy-tagged builds run 'deploy'
+
+workflows:
+  version: 2
+  untagged-build:
+    jobs:
+      - build
+  tagged-build:
+    jobs:
+      - deploy:
+          filters:
+            tags:
+              only: /^deploy-.*/
