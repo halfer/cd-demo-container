@@ -48,6 +48,7 @@ jobs:
             docker run \
                 --publish 8080:80 \
                 --detach \
+                --name ${CIRCLE_PROJECT_REPONAME} \
                 registry.gitlab.com/halfercode/${CIRCLE_PROJECT_REPONAME}
       - run:
           name: Wait for container to be ready
@@ -60,7 +61,7 @@ jobs:
       - run:
           name: Stop Docker container
           command: |
-            docker stop registry.gitlab.com/halfercode/${CIRCLE_PROJECT_REPONAME}
+            docker stop ${CIRCLE_PROJECT_REPONAME}
       - run:
           name: Push Docker image
           command: |
