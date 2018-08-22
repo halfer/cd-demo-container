@@ -42,16 +42,13 @@ jobs:
       - setup_remote_docker
       - run: *docker-sign-in
 
-# @todo Check that tagged and untagged builds run 'build'
-# @todo Check that deploy-tagged builds run 'deploy'
-
 workflows:
   version: 2
-  # This works on all pushes
+  # This runs on all pushes
   untagged-build:
     jobs:
       - build
-  # This should only work on deploy tags
+  # This only runs on deploy tags
   tagged-build:
     jobs:
       - deploy:
