@@ -41,7 +41,7 @@ jobs:
             apk update
             apk --update add php7
             # Composer requirements
-            apk --update add php7-openssl php7-json php7-mbstring php7-zlib openssl
+            apk --update add php7-openssl php7-json php7-mbstring php7-zlib php7-phar
             # PHPUnit requirements
             apk --update add php7-dom php7-mbstring
             # Give the PHP binary a nice name
