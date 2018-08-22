@@ -1,4 +1,4 @@
 #!/bin/bash
 
-docker build --label cd-demo-container .
+docker build --tag cd-demo-container .
 

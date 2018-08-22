@@ -11,4 +11,4 @@ COPY web/index.php /root/index.php
 
 # Start the web server
 EXPOSE 80
-ENTRYPOINT ["php -S localhost:80 -t /root"]
+ENTRYPOINT ["php", "-S", "0.0.0.0:80", "-t", "/root"]
