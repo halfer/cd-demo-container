@@ -33,7 +33,7 @@ jobs:
           name: Build application Docker image
           command: |
             docker build \
-                --tag $registry.gitlab.com/halfercode/${CIRCLE_PROJECT_REPONAME} \
+                --tag registry.gitlab.com/halfercode/${CIRCLE_PROJECT_REPONAME} \
                 .
       - run:
           name: Install test software
