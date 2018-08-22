@@ -44,13 +44,17 @@ jobs:
 
 workflows:
   version: 2
-  # This runs on all pushes
+  # This runs on non-tag pushes
   untagged-build:
     jobs:
       - build
   # This only runs on deploy tags
   tagged-build:
     jobs:
+      - build:
+          filters:
+            tags:
+              only: /^deploy-.*/
       - deploy:
           requires:
             - build
