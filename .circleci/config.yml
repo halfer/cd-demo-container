@@ -9,6 +9,13 @@ docker-sign-in: &docker-sign-in
   command: |
     docker login -u halfercode -p ${GITLAB_CDDEMO_REGISTRY_TOKEN} registry.gitlab.com
 
+only-deploy-tags: &only-deploy-tags
+  filters:
+    tags:
+      only: /^deploy-.*/
+    branches:
+      ignore: /.*/
+
 # Here are the jobs
 
 version: 2
@@ -32,15 +39,28 @@ jobs:
           command: |
             docker push registry.gitlab.com/halfercode/${CIRCLE_PROJECT_REPONAME}
 
-  # @todo This doesn't do any deploying yet, process needs designing and finishing
-  deploy:
+  test:
     working_directory: /app
     docker:
       - image: docker:17.05.0-ce-git
     steps:
       # We don't need remote Docker, but this gets the local Docker service started
       - setup_remote_docker
+      - run: apt-get install php
       - run: *docker-sign-in
+      - run:
+          name: Retrieve Docker image
+          command: |
+            docker pull registry.gitlab.com/halfercode/${CIRCLE_PROJECT_REPONAME}
+
+  # @todo This doesn't do any deploying yet, process needs designing and finishing
+  # See the technique here: https://dzone.com/articles/deploying-from-circleci-to-linode-and-other-vps-pr
+  deploy:
+    working_directory: /app
+    docker:
+      - image: docker:17.05.0-ce-git
+    steps:
+      - add_ssh_keys
 
 workflows:
   version: 2
@@ -51,17 +71,8 @@ workflows:
   # This only runs on deploy tags and not branches
   tagged-build:
     jobs:
-      - build:
-          filters:
-            tags:
-              only: /^deploy-.*/
-            branches:
-              ignore: /.*/
+      - build: *only-deploy-tags
       - deploy:
+          <<: *only-deploy-tags
           requires:
             - build
-          filters:
-            tags:
-              only: /^deploy-.*/
-            branches:
-              ignore: /.*/
