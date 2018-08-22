@@ -39,9 +39,13 @@ jobs:
           name: Install test software
           command: |
             apk update
-            apk --update add php7 php7-phar openssl
+            apk --update add php7
+            # Composer requirements
+            apk --update add php7-openssl php7-json php7-mbstring php7-zlib openssl
+            # PHPUnit requirements
+            apk --update add php7-dom php7-mbstring
             # Give the PHP binary a nice name
-            ls -s /usr/bin/php7 /usr/bin/php
+            ln -s /usr/bin/php7 /usr/bin/php
             cd /app && sh /app/install/composer.sh
             php /app/composer.phar install
       - run:
