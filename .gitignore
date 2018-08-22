@@ -1,2 +1,5 @@
 # Ignore IDE
 nbproject/
+
+# Ignore dependencies
+vendor/
