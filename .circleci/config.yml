@@ -52,16 +52,17 @@ jobs:
           name: Start Docker container
           command: |
             docker run \
-                --publish 8080:80 \
                 --detach \
                 --name ${CIRCLE_PROJECT_REPONAME} \
                 registry.gitlab.com/halfercode/${CIRCLE_PROJECT_REPONAME}
             docker ps
       - run:
-          # Thanks to https://unix.stackexchange.com/a/5279
+          # Thanks to https://unix.stackexchange.com/a/5279. CircleCI's Docker
+          # system does not allow external connections in a DinD set-up, so I am
+          # reaching into the container to do that.
           name: Wait for container to be ready
           command: |
-            timeout -t 5 sh -c 'while ! echo exit | nc localhost 8080; do sleep 0.5; done'
+            docker exec -it ${CIRCLE_PROJECT_REPONAME} /app/bin/wait.sh
       - run:
           name: Run tests
           command: |
