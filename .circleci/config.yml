@@ -56,11 +56,12 @@ jobs:
                 --detach \
                 --name ${CIRCLE_PROJECT_REPONAME} \
                 registry.gitlab.com/halfercode/${CIRCLE_PROJECT_REPONAME}
+            docker ps
       - run:
           # Thanks to https://unix.stackexchange.com/a/5279
           name: Wait for container to be ready
           command: |
-            timeout -t 5 sh -c 'while ! echo exit | nc localhost 8080; do sleep 1; done'
+            timeout -t 5 sh -c 'while ! echo exit | nc localhost 8080; do sleep 0.5; done'
       - run:
           name: Run tests
           command: |
