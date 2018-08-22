@@ -38,6 +38,8 @@ jobs:
     docker:
       - image: docker:17.05.0-ce-git
     steps:
+      # We don't need remote Docker, but this gets the local Docker service started
+      - setup_remote_docker
       - run: *docker-sign-in
 
 # @todo Check that tagged and untagged builds run 'build'
@@ -45,12 +47,16 @@ jobs:
 
 workflows:
   version: 2
+  # This works on all pushes
   untagged-build:
     jobs:
       - build
+  # This should only work on deploy tags
   tagged-build:
     jobs:
       - deploy:
+          requires:
+            - build
           filters:
             tags:
               only: /^deploy-.*/
