@@ -63,7 +63,7 @@ jobs:
       - run:
           name: Run tests
           command: |
-            # Dummy command
+            /app/vendor/bin/phpunit
       - run:
           name: Stop Docker container
           command: |
