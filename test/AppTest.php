@@ -10,7 +10,6 @@ class AppTest extends TestCase
 {
     public function testApp()
     {
-        $this->markTestIncomplete();
         print_r($_SERVER);
         echo $this->getWebPage() . "\n";
     }
