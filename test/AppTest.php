@@ -10,8 +10,15 @@ class AppTest extends TestCase
 {
     public function testApp()
     {
-        echo "Docker output:\n";
-        print_r($this->getWebPage());
+        // Get the page and convert it to an XML object
+        $html = $this->getWebPage();
+        $doc = simplexml_load_string($html);
+        $message = trim((string) $doc->body);
+
+        $this->assertEquals(
+            "This is a 'hello world' for my CD container.",
+            $message
+        );
     }
 
     protected function getWebPage()
@@ -34,7 +41,9 @@ class AppTest extends TestCase
             );
         }
 
-        return $output;
+        $imploded = implode(PHP_EOL, $output);
+
+        return $imploded;
     }
 
     protected function getRepoName()
