@@ -24,4 +24,4 @@ HEALTHCHECK --interval=3s --timeout=5s --start-period=2s --retries=5 \
 
 # Start the web server
 ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
-CMD ["php", "-S", "0.0.0.0:80", "-t", "/root"]
+CMD ["sh", "/app/bin/start.sh"]

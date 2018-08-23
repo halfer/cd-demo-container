@@ -13,7 +13,7 @@ class AppTest extends TestCase
         // Get the page and convert it to an XML object
         $html = $this->getWebPage();
         $doc = simplexml_load_string($html);
-        $message = trim((string) $doc->body);
+        $message = trim((string) $doc->body->div);
 
         $this->assertEquals(
             "This is a 'hello world' for my CD container.",
