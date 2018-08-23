@@ -10,18 +10,18 @@ class AppTest extends TestCase
 {
     public function testApp()
     {
-        echo "Env:\n";
-        print_r($_ENV);
-        echo "Server:\n";
-        print_r($_SERVER);
         echo "Docker output:\n";
-        print_R($this->getWebPage());
+        print_r($this->getWebPage());
     }
 
     protected function getWebPage()
     {
         $output = $return = null;
-        exec('docker exec -ti cd-demo-container wget -qO- http://localhost', $output, $return);
+        $command = sprintf(
+            'docker exec -ti %s wget -qO- http://localhost',
+            escapeshellarg($this->getRepoName())
+        );
+        exec($command, $output, $return);
 
         // Check return value first
         if ($return)
@@ -35,5 +35,18 @@ class AppTest extends TestCase
         }
 
         return $output;
+    }
+
+    protected function getRepoName()
+    {
+        $name = isset($_SERVER['CIRCLE_PROJECT_REPONAME']) ?
+            $_SERVER['CIRCLE_PROJECT_REPONAME'] :
+            null;
+        if (!$name)
+        {
+            throw new RuntimeException('Repository name not detected');
+        }
+
+        return $name;
     }
 }
