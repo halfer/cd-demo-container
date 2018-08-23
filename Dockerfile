@@ -14,10 +14,13 @@ RUN chmod +x /usr/local/bin/dumb-init
 COPY bin /app/bin
 RUN chmod -R +x /app/bin
 
-# Copy a hello world webpage
-COPY web/index.php /root/index.php
+# Copy contents of a web dir
+COPY web/* /root/
 
 EXPOSE 80
+
+HEALTHCHECK --interval=3s --timeout=5s --start-period=2s --retries=5 \
+    CMD wget -qO- http://localhost/health.php > /dev/null || exit 1
 
 # Start the web server
 ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
