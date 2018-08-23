@@ -10,8 +10,12 @@ class AppTest extends TestCase
 {
     public function testApp()
     {
+        echo "Env:\n";
+        print_r($_ENV);
+        echo "Server:\n";
         print_r($_SERVER);
-        echo $this->getWebPage() . "\n";
+        echo "Docker output:\n";
+        print_R($this->getWebPage());
     }
 
     protected function getWebPage()
