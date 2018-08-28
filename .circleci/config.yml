@@ -74,7 +74,7 @@ jobs:
       - run:
           name: Push Docker image
           command: |
-            if [ $HOST == "deploy-"* ]
+            if [ $CIRCLE_TAG == "deploy-"* ]
             then
                 docker push registry.gitlab.com/halfercode/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_TAG}
             else
