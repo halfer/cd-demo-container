@@ -72,14 +72,16 @@ jobs:
           command: |
             docker stop ${CIRCLE_PROJECT_REPONAME}
       - run:
-          name: Push Docker image
+          name: Push Docker image if a deploy tag is detected
           command: |
-            if [ $CIRCLE_TAG == "deploy-"* ]
-            then
-                docker push registry.gitlab.com/halfercode/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_TAG}
-            else
-                echo "No deploy tag, so no need to push"
-            fi
+            case $CIRCLE_TAG in
+                deploy*)
+                    docker push registry.gitlab.com/halfercode/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_TAG}
+                    ;;
+                *)
+                    echo "No deploy tag, so no need to push"
+                    ;;
+            esac
 
   # @todo This doesn't do any deploying yet, process needs designing and finishing
   # See the technique here: https://dzone.com/articles/deploying-from-circleci-to-linode-and-other-vps-pr
