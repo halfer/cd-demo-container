@@ -99,7 +99,8 @@ jobs:
           name: Pull Docker image onto deploy box
           command: |
             ssh-keyscan -H agnes.jondh.me.uk >> /root/.ssh/known_hosts
-            ssh root@agnes.jondh.me.uk ls /
+            # Not working yet, need to investigate with a post-fail SSH build
+            #ssh root@agnes.jondh.me.uk ls /
             # This needs to be done with SSH
             #docker pull registry.gitlab.com/halfercode/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_TAG}
 
