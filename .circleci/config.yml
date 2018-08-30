@@ -90,12 +90,14 @@ jobs:
     docker:
       - image: docker:17.05.0-ce-git
     steps:
+      # Adds the keys from the UI so we can access a remote service
       - add_ssh_keys
       # This gets the local Docker service started
       - setup_remote_docker
       - run:
           name: Pull Docker image onto deploy box
           command: |
+            ssh root@agnes.jondh.me.uk ls /
             # This needs to be done with SSH
             #docker pull registry.gitlab.com/halfercode/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_TAG}
 
