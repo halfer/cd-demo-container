@@ -16,6 +16,7 @@ I am using these things:
 * Docker to run the container
 * Docker Swarm to run multiple containers in a service
 * CircleCI for integration
+* GitLab as a Docker image registry
 * Alpine Linux as a lightweight container OS
 
 If you're learning any of these things, but want to change something, feel free to clone
