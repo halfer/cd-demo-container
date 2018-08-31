@@ -1,6 +1,8 @@
 Continuous integration/deployment demo
 ===
 
+[![CircleCI](https://circleci.com/gh/halfer/cd-demo-container.svg?style=svg)](https://circleci.com/gh/halfer/cd-demo-container)
+
 Introduction
 ---
 
