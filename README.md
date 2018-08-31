@@ -78,7 +78,8 @@ experienced users:
 * Install Docker in the remote server
 * Login to the Docker registry in the remote server
 * Start a Docker Swarm service in the remote ([example command](bin/swarm-start.sh))
-* Add a Git tag and push that tag to kick off an automatic deployment
+* Add a Git tag and push that tag to kick off an automatic deployment (e.g.
+`git tag -a deploy-v1 && git push --follow-tags`)
 
 Optional:
 
