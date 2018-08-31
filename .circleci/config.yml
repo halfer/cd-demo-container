@@ -100,7 +100,7 @@ jobs:
           command: |
             ssh-keyscan -H agnes.jondh.me.uk >> /root/.ssh/known_hosts
             # Pull the new Docker image into position
-            ssh root@agnes.jondh.me.uk 'docker pull registry.gitlab.com/halfercode/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_TAG}'
+            ssh root@agnes.jondh.me.uk "docker pull registry.gitlab.com/halfercode/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_TAG}"
             # This is already scaled to two instances, so we just need a rolling update
             # @todo Do a rolling update
 workflows:
