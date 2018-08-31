@@ -97,7 +97,7 @@ Other resources
 
 To achieve zero-downtime continuous deployment, I used the technique shown in
 [this video](https://www.youtube.com/watch?v=dLBGoaMz7dQ); I recommend watching it,
-as it is very-well presented.
+as it is very well presented.
 
 License
 ---
