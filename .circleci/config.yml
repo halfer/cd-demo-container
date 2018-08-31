@@ -106,11 +106,14 @@ jobs:
       - run:
           name: Do a rolling service update
           command: |
-            # This should already scaled to two instances
+            # This should already be scaled to two instances
+            # The 'uniq' suppresses a long stream of ncurses updates
+            # (which the CI console doesn't cope with very well)
             ssh root@agnes.jondh.me.uk \
                 "docker service update \
                     --image=registry.gitlab.com/halfercode/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_TAG} \
                     --with-registry-auth cd-demo \
+                | uniq
                 "
 workflows:
   version: 2
