@@ -16,12 +16,18 @@ only-deploy-tags: &only-deploy-tags
     branches:
       ignore: /.*/
 
+common-env-vars: &common-env-vars
+  DOCKER_REGISTRY: registry.gitlab.com
+  DOCKER_IMAGE_URL: registry.gitlab.com/halfercode
+  DOCKER_SERVICE_NAME: cd-demo
+
 # Here are the jobs
 
 version: 2
 jobs:
   build:
     working_directory: /app
+    environment: *common-env-vars
     docker:
       - image: docker:17.05.0-ce-git
     steps:
@@ -88,6 +94,7 @@ jobs:
   # See the technique here: https://dzone.com/articles/deploying-from-circleci-to-linode-and-other-vps-pr
   deploy:
     working_directory: /app
+    environment: *common-env-vars
     docker:
       - image: docker:17.05.0-ce-git
     steps:
