@@ -95,5 +95,5 @@ container.
 License
 ---
 
-This material is licensed under the [MIT License], which means you can pretty much do
-anything you like with it.
+This material is licensed under the [MIT License](https://opensource.org/licenses/MIT),
+which means you can pretty much do anything you like with it.
