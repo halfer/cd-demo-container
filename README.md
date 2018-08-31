@@ -76,8 +76,8 @@ experienced users:
 * Connect CircleCI to GitHub and start building the project
 * Customise the env vars in `config.yml` and push
 * Install Docker in the remote server
-* Create a Docker login in the remote server
-* Start a Docker Swarm service in the remote
+* Login to the Docker registry in the remote server
+* Start a Docker Swarm service in the remote ([example command](bin/swarm-start.sh))
 * Add a Git tag and push that tag to kick off an automatic deployment
 
 Optional:
