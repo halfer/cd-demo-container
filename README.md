@@ -13,17 +13,20 @@ I am using these things:
 
 * PHP for scripting
 * The built-in PHP web-server
-* Docker to run the container
+* GitHub for version control (obviously `;-)`)
+* Docker to containerise the app
+* Alpine Linux as a lightweight container OS
 * Docker Swarm to run multiple containers in a service
 * HTTP Health-checks to help Docker maintain availability
 * CircleCI for integration
 * GitLab as a Docker image registry
-* Alpine Linux as a lightweight container OS
 * Vultr as a cloud Linux host
 * Git tags as an auto-deployment trigger
 
-If you're learning any of these things, but want to change something, feel free to clone
-and swap!
+If you're wanting to get this project working, but want to change individual things, go
+right ahead. For example, you could use a different Git host or Docker registry
+without much bother. The only thing that would need much more work to swap is CircleCI,
+since the configuration file is specific to their system.
 
 How it works
 ---
