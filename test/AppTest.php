@@ -12,6 +12,10 @@ class AppTest extends TestCase
     {
         // Get the page and convert it to an XML object
         $html = $this->getWebPage();
+
+        // CI is giving me some parsing issues, so let's see it
+        echo str_replace("\n", "⏎", $html);
+
         $doc = simplexml_load_string($html);
         $message = trim((string) $doc->body->div);
 
