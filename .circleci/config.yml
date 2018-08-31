@@ -99,11 +99,10 @@ jobs:
           name: Pull Docker image onto deploy box
           command: |
             ssh-keyscan -H agnes.jondh.me.uk >> /root/.ssh/known_hosts
-            # Not working yet, need to investigate with a post-fail SSH build
-            ssh root@agnes.jondh.me.uk ls /
-            # This needs to be done with SSH
-            #docker pull registry.gitlab.com/halfercode/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_TAG}
-
+            # Pull the new Docker image into position
+            ssh root@agnes.jondh.me.uk 'docker pull registry.gitlab.com/halfercode/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_TAG}'
+            # This is already scaled to two instances, so we just need a rolling update
+            # @todo Do a rolling update
 workflows:
   version: 2
   # This runs on non-tag pushes
