@@ -96,13 +96,22 @@ jobs:
       # This gets the local Docker service started
       - setup_remote_docker
       - run:
-          name: Pull Docker image onto deploy box
+          name: Add the keys to the known hosts
           command: |
             ssh-keyscan -H agnes.jondh.me.uk >> /root/.ssh/known_hosts
-            # Pull the new Docker image into position
+      - run:
+          name: Pull Docker image onto deploy box
+          command: |
             ssh root@agnes.jondh.me.uk "docker pull registry.gitlab.com/halfercode/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_TAG}"
-            # This is already scaled to two instances, so we just need a rolling update
-            # @todo Do a rolling update
+      - run:
+          name: Do a rolling service update
+          command: |
+            # This should already scaled to two instances
+            ssh root@agnes.jondh.me.uk \
+                "docker service update \
+                    --image=registry.gitlab.com/halfercode/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_TAG} \
+                    --with-registry-auth cd-demo \
+                "
 workflows:
   version: 2
   # This runs on non-tag pushes
