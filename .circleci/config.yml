@@ -7,7 +7,10 @@
 docker-sign-in: &docker-sign-in
   name: Sign into Docker registry
   command: |
-    docker login -u halfercode -p ${GITLAB_CDDEMO_REGISTRY_TOKEN} registry.gitlab.com
+    docker login \
+        -u ${PROJECT_DOCKER_REGISTRY_USER} \
+        -p ${GITLAB_CDDEMO_REGISTRY_TOKEN} \
+        ${PROJECT_DOCKER_REGISTRY}
 
 only-deploy-tags: &only-deploy-tags
   filters:
@@ -17,9 +20,12 @@ only-deploy-tags: &only-deploy-tags
       ignore: /.*/
 
 common-env-vars: &common-env-vars
-  DOCKER_REGISTRY: registry.gitlab.com
-  DOCKER_IMAGE_URL: registry.gitlab.com/halfercode
-  DOCKER_SERVICE_NAME: cd-demo
+  PROJECT_DOCKER_REGISTRY: registry.gitlab.com
+  PROJECT_DOCKER_REGISTRY_USER: halfercode
+  PROJECT_DOCKER_IMAGE_URL: registry.gitlab.com/halfercode
+  PROJECT_DOCKER_SERVICE_NAME: cd-demo
+  PROJECT_DEPLOY_HOST: agnes.jondh.me.uk
+  PROJECT_DEPLOY_USER: root
 
 # Here are the jobs
 
@@ -120,7 +126,8 @@ jobs:
                 "docker service update \
                     --env-add CD_DEMO_VERSION=${CIRCLE_TAG} \
                     --image=registry.gitlab.com/halfercode/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_TAG} \
-                    --with-registry-auth cd-demo \
+                    --with-registry-auth \
+                    cd-demo \
                 | uniq
                 "
 workflows:
