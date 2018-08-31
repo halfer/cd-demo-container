@@ -111,6 +111,7 @@ jobs:
             # (which the CI console doesn't cope with very well)
             ssh root@agnes.jondh.me.uk \
                 "docker service update \
+                    --env-add CD_DEMO_VERSION=${CIRCLE_TAG} \
                     --image=registry.gitlab.com/halfercode/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_TAG} \
                     --with-registry-auth cd-demo \
                 | uniq
