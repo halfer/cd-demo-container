@@ -70,7 +70,7 @@ General steps
 I will expand on these in the future, but these will be a helpful checklist for
 experienced users:
 
-* Clone this repo
+* Fork this repo
 * Create a small Ubuntu server in the Vultr host
 * Create an empty project in GitLab (using the same name as the GitHub project)
 * Connect CircleCI to GitHub and start building the project
@@ -91,6 +91,13 @@ I have a [running instance](https://cd-demo.jondh.me.uk/) of this service. This 
 is a bit different because, obviously, it runs via a secure site. This is achieved
 by adding a [Traefik](https://traefik.io/) front-end proxy in front of the demo
 container.
+
+Other resources
+---
+
+To achieve zero-downtime continuous deployment, I used the technique shown in
+[this video](https://www.youtube.com/watch?v=dLBGoaMz7dQ); I recommend watching it,
+as it is very-well presented.
 
 License
 ---
