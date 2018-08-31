@@ -21,6 +21,13 @@ I am using these things:
 If you're learning any of these things, but want to change something, feel free to clone
 and swap!
 
+Running instance
+---
+
+I have a [running instance](https://cd-demo.jondh.me.uk/) of this service. This one
+is a bit different because, obviously, it runs via a secure site. This is achieved
+by my adding a Traefik front-end proxy in front of the demo container.
+
 License
 ---
 
