@@ -61,13 +61,14 @@ Preparation
 To follow this tutorial, sign up for the following:
 
 * GitHub
-* Vultr
+* Pretty much any VPS host
 * GitLab
 * CircleCI
 
-The Linux host will generally cost some money, although on most cloud systems you
-are charged very accurately, and as long as you destroy the machine when you are
-finished, you'll incur very low costs (less than one US dollar).
+The VPS host will generally cost some money. If you can go for a cloud provider they
+will charge very accurately, and as long as you destroy the machine when you are
+finished, you'll incur very low costs (less than one US dollar). I use Vultr, but
+there's also Digital Ocean, Linode and many others available.
 
 General steps
 ---
@@ -76,10 +77,40 @@ I will expand on these in the future, but these will be a helpful checklist for
 experienced users:
 
 * Fork this repo
-* Create a small Ubuntu server in the Vultr host
+
+    The project name can be anything, but it may be easier to stick with
+    `cd-demo-container`.
+
+    To use CircleCI, you _have_ to use either GitHub or BitBucket, at the time of
+    writing. Although you can checkout from any Git repo, I don't think CircleCI
+    will monitor code pushes on anything other than these two.
+
+* Create a small server in the VPS host
+
+    I use a machine with 1G of RAM but you might get away with less than that. I
+    use Ubuntu as it is popular and widely supported, but if you prefer something
+    else (Fedora, Centos, Debian, etc) then go for it.
+
 * Create an empty project in GitLab (using the same name as the GitHub project)
+
+    Your project URL will be `https://gitlab.com/username/cd-demo-container`, with
+    the appropriate swap for the username.
+
 * Connect CircleCI to GitHub and start building the project
 * Customise the env vars in `config.yml` and push
+
+    These vars will need to be changed:
+
+        PROJECT_DOCKER_REGISTRY_USER: halfercode
+        PROJECT_DOCKER_IMAGE_URL: registry.gitlab.com/halfercode
+        PROJECT_DEPLOY_HOST: agnes.jondh.me.uk
+
+    You can probably leave these be (change them if you know what you are doing):
+
+        PROJECT_DOCKER_REGISTRY: registry.gitlab.com
+        PROJECT_DOCKER_SERVICE_NAME: cd-demo
+        PROJECT_DEPLOY_USER: root
+
 * Install Docker in the remote server
 * Login to the Docker registry in the remote server (`docker login ...`)
 * Initialise a Docker swarm (`docker swarm init`)
