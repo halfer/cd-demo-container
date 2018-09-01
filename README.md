@@ -8,8 +8,8 @@ Introduction
 
 This is a simple demonstration repository to show how to use continuous integration and
 continuous deployment to deploy a web service with zero downtime. To do that, I am using
-some features in Docker Swarm to run multiple containers, such that during a container
-upgrade, traffic is automatically routed to a different one.
+some features in Docker Swarm to run multiple containers, such that during the short outage
+during a container upgrade, traffic is automatically routed to a healthy running instance.
 
 I am using these things:
 
@@ -19,7 +19,7 @@ I am using these things:
 * Docker to containerise the app
 * Alpine Linux as a lightweight container OS
 * Docker Swarm to run multiple containers in a service
-* HTTP Health-checks to help Docker maintain availability
+* HTTP health-checks to help Docker maintain availability
 * CircleCI for integration
 * GitLab as a Docker image registry
 * Vultr as a cloud Linux host
