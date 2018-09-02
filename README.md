@@ -84,9 +84,8 @@ upon later if extra guidance is required.
 * Install Docker in the remote server
 * Login to the Docker registry in the remote server (`docker login ...`)
 * Initialise a Docker swarm (`docker swarm init`)
-* Start a Docker service in the remote ([example command](bin/swarm-start.sh))
-* Add a Git tag and push that tag to kick off an automatic deployment (e.g.
-`git tag -a deploy-v1 && git push --follow-tags`)
+* Start a Docker service in the remote
+* Add a Git deployment tag and push that tag to kick off an automatic deployment
 
 Optional steps:
 
@@ -116,9 +115,9 @@ Debian, etc) then go for it.
 Your project URL will be `https://gitlab.com/username/cd-demo-container`, with the
 appropriate swap for the username.
 
-### Customise the env vars in `config.yml`
+### Customise the env vars
 
-These vars will need to be changed:
+These vars will need to be changed in `config.yml`:
 
     PROJECT_DOCKER_REGISTRY_USER: halfercode
     PROJECT_DOCKER_IMAGE_URL: registry.gitlab.com/halfercode
@@ -129,6 +128,32 @@ You can probably leave these be (but change them if you know what you are doing)
     PROJECT_DOCKER_REGISTRY: registry.gitlab.com
     PROJECT_DOCKER_SERVICE_NAME: cd-demo
     PROJECT_DEPLOY_USER: root
+
+### Start a Docker service in the remote
+
+After a Swarm has been initialised, run this on the manager node (of course, with
+suitable replacements for the container name etc):
+
+    docker service create \
+        --name cd-demo \
+        --env CD_DEMO_VERSION=latest \
+        --replicas 2 \
+        --with-registry-auth \
+        --publish 80:80 \
+        registry.gitlab.com/halfercode/cd-demo-container
+
+### Add a Git deployment tag
+
+The configuration is designed to run the `build` job on an ordinary code push, and
+to run both the `build` and `deploy` jobs on a tag push.
+
+To add a tag, you can use:
+
+    git tag -a deploy-v1
+
+To push both commits and tags, you can use:
+
+    git push --follow-tags
 
 Running instance
 ---
