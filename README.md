@@ -149,6 +149,8 @@ login operation:
 * Add the private key to CircleCI
 * Add the public key to the deploy target using `ssh-copy-id`
 
+I have more details about this [in this blog post](https://blog.jondh.me.uk/2018/08/creating-a-vps-deploy-key-for-a-circleci-build/)
+
 ### Start a Docker service in the remote
 
 After a Swarm has been initialised, run this on the manager node (of course, with
