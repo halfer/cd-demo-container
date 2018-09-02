@@ -96,8 +96,6 @@ jobs:
                     ;;
             esac
 
-  # @todo This doesn't do any deploying yet, process needs designing and finishing
-  # See the technique here: https://dzone.com/articles/deploying-from-circleci-to-linode-and-other-vps-pr
   deploy:
     working_directory: /app
     environment: *common-env-vars
@@ -128,7 +126,7 @@ jobs:
                     --image=${PROJECT_DOCKER_IMAGE_URL}/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_TAG} \
                     --with-registry-auth \
                     ${PROJECT_DOCKER_SERVICE_NAME} \
-                | uniq
+                | uniq \
                 "
 workflows:
   version: 2
