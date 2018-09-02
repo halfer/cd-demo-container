@@ -109,18 +109,18 @@ jobs:
       - run:
           name: Add the keys to the known hosts
           command: |
-            ssh-keyscan -H agnes.jondh.me.uk >> /root/.ssh/known_hosts
+            ssh-keyscan -H ${PROJECT_DEPLOY_HOST} >> /root/.ssh/known_hosts
       - run:
           name: Pull Docker image onto deploy box
           command: |
-            ssh root@agnes.jondh.me.uk "docker pull ${PROJECT_DOCKER_IMAGE_URL}/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_TAG}"
+            ssh ${PROJECT_DEPLOY_USER}@${PROJECT_DEPLOY_HOST} "docker pull ${PROJECT_DOCKER_IMAGE_URL}/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_TAG}"
       - run:
           name: Do a rolling service update
           command: |
             # This should already be scaled to two instances
             # The 'uniq' suppresses a long stream of ncurses updates
             # (which the CI console doesn't cope with very well)
-            ssh root@agnes.jondh.me.uk \
+            ssh ${PROJECT_DEPLOY_USER}@${PROJECT_DEPLOY_HOST} \
                 "docker service update \
                     --env-add CD_DEMO_VERSION=${CIRCLE_TAG} \
                     --image=${PROJECT_DOCKER_IMAGE_URL}/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_TAG} \
