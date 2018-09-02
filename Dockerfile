@@ -19,7 +19,9 @@ COPY web/* /root/
 
 EXPOSE 80
 
-HEALTHCHECK --interval=3s --timeout=5s --start-period=2s --retries=5 \
+# The healthcheck is used by the Routing Mesh, during a rolling update, to understand
+# when to avoid a container that is not ready to receive HTTP traffic.
+HEALTHCHECK --interval=5s --timeout=5s --start-period=2s --retries=5 \
     CMD wget -qO- http://localhost/health.php > /dev/null || exit 1
 
 # Start the web server
