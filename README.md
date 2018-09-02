@@ -135,7 +135,7 @@ You can probably leave these be (but change them if you know what you are doing)
 Generate an [access token in GitLab](https://gitlab.com/profile/personal_access_tokens)
 with the "api" permission. I believe that's the only permission with write access,
 and unfortunately is not per-project. If you have high-value projects in GitLab,
-consider using a expiry period, e.g. in a month or two.
+consider using a shorter expiry period, e.g. in a month or two.
 
 Then store the generated token somewhere safe, such as a password keeper. Finally,
 get a remote shell on the deployment target and enter the token in response to a
@@ -154,15 +154,28 @@ I have more details about this [in this blog post](https://blog.jondh.me.uk/2018
 ### Start a Docker service in the remote
 
 After a Swarm has been initialised, run this on the manager node (of course, with
-suitable replacements for the container name etc):
+suitable replacements for the repo URL and container name etc):
 
+    # Get latest tag from the Git repo
+    # (this lists available tags, removes the non-numeric prefix, sorts the
+    # numbers mathematically, gets the largest one, then adds the prefix back)
+    DEPLOY_VERSION=`git ls-remote --tags --refs \
+        git@github.com:halfer/cd-demo-container.git \
+        | grep deploy- \
+        | cut -f 2 \
+        | sed "s/refs\/tags\/deploy-v//" \
+        | sort --general-numeric-sort --reverse \
+        | head -n 1`
+    DEPLOY_TAG=deploy-v${DEPLOY_VERSION}
+
+    # Start service
     docker service create \
         --name cd-demo \
-        --env CD_DEMO_VERSION=latest \
+        --env CD_DEMO_VERSION=${DEPLOY_TAG} \
         --replicas 2 \
         --with-registry-auth \
         --publish 80:80 \
-        registry.gitlab.com/halfercode/cd-demo-container
+        registry.gitlab.com/halfercode/cd-demo-container:${DEPLOY_TAG}
 
 ### Add a Git deployment tag
 
