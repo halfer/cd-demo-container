@@ -82,7 +82,8 @@ upon later if extra guidance is required.
 * Connect CircleCI to GitHub and start building the project
 * Customise the env vars in `config.yml` and push
 * Install Docker in the remote server
-* Login to the Docker registry in the remote server (`docker login ...`)
+* Login to the Docker registry in the remote server
+* Generate deployment keys
 * Initialise a Docker swarm (`docker swarm init`)
 * Start a Docker service in the remote
 * Add a Git deployment tag and push that tag to kick off an automatic deployment
@@ -128,6 +129,25 @@ You can probably leave these be (but change them if you know what you are doing)
     PROJECT_DOCKER_REGISTRY: registry.gitlab.com
     PROJECT_DOCKER_SERVICE_NAME: cd-demo
     PROJECT_DEPLOY_USER: root
+
+### Login to the Docker registry in the remote server
+
+Generate an [access token in GitLab](https://gitlab.com/profile/personal_access_tokens)
+with the "api" permission. I believe that's the only permission with write access,
+and unfortunately is not per-project. If you have high-value projects in GitLab,
+consider using a expiry period, e.g. in a month or two.
+
+Then store the generated token somewhere safe, such as a password keeper. Finally,
+get a remote shell on the deployment target and enter the token in response to a
+login operation:
+
+    docker login --username halfercode registry.gitlab.com
+
+### Generate deployment keys
+
+* Generate a SSH key pair
+* Add the private key to CircleCI
+* Add the public key to the deploy target using `ssh-copy-id`
 
 ### Start a Docker service in the remote
 
