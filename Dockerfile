@@ -1,18 +1,19 @@
 # Docker build script for continuous deployment demo container
 #
-# Alpine 3.8 seems to suffer from spurious chars in PHP web output, trying 3.7 instead
+# Alpine 3.7 + 3.8 seems to suffer from spurious chars in PHP web output, trying
+# Ubuntu instead now.
 
-FROM alpine:3.7
+FROM ubuntu:18.10
 
 # Install software
-RUN apk update
-RUN apk add --update php7 php7-apache2
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y php apache2
 
 # Prep Apache
-RUN mkdir -p /run/apache2
-RUN echo "ServerName localhost" > /etc/apache2/conf.d/server-name.conf
+RUN echo "ServerName localhost" > /etc/apache2/conf-enabled/server-name.conf
 
 # Add dumb init to improve sig handling (stop time in CircleCI of 10sec is too slow)
+RUN apt-get install -y wget
 RUN wget -O /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.2/dumb-init_1.2.2_amd64
 RUN chmod +x /usr/local/bin/dumb-init
 
@@ -21,8 +22,8 @@ COPY bin /app/bin
 RUN chmod -R +x /app/bin
 
 # Copy contents of a web dir
-RUN rm /var/www/localhost/htdocs/*
-COPY web/* /var/www/localhost/htdocs/
+RUN rm /var/www/html/*
+COPY web/* /var/www/html/
 
 EXPOSE 80
 
