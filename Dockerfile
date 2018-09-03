@@ -12,8 +12,10 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y php apache2
 # Prep Apache
 RUN echo "ServerName localhost" > /etc/apache2/conf-enabled/server-name.conf
 
+# Other dependencies
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y wget netcat
+
 # Add dumb init to improve sig handling (stop time in CircleCI of 10sec is too slow)
-RUN apt-get install -y wget
 RUN wget -O /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.2/dumb-init_1.2.2_amd64
 RUN chmod +x /usr/local/bin/dumb-init
 
