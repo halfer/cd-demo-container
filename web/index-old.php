@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Test page ♥</title>
+        <title>Test page</title>
     </head>
     <body>
         <div>
@@ -15,4 +15,3 @@
         </p>
     </body>
 </html>
-
