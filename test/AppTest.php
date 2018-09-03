@@ -29,7 +29,7 @@ class AppTest extends TestCase
     {
         $output = $return = null;
         $command = sprintf(
-            'docker exec -ti %s wget -qO- http://localhost',
+            'docker exec -ti %s php -r "echo file_get_contents(\'http://localhost\');"',
             escapeshellarg($this->getRepoName())
         );
         exec($command, $output, $return);
