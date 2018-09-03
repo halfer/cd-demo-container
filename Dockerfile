@@ -1,10 +1,12 @@
 # Docker build script for continuous deployment demo container
+#
+# Alpine 3.8 seems to suffer from spurious chars in PHP web output, trying 3.7 instead
 
-FROM alpine:3.8
+FROM alpine:3.7
 
 # Install software
 RUN apk update
-RUN apk add php-cli php-apache2
+RUN apk add --update php7 php7-apache2
 
 # Prep Apache
 RUN mkdir -p /run/apache2
@@ -28,6 +30,9 @@ EXPOSE 80
 # when to avoid a container that is not ready to receive HTTP traffic.
 HEALTHCHECK --interval=5s --timeout=5s --start-period=2s --retries=5 \
     CMD wget -qO- http://localhost/health.php > /dev/null || exit 1
+
+# Report PHP version in build
+RUN php -v
 
 # Start the web server
 ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
