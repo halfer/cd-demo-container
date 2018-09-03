@@ -4,7 +4,11 @@ FROM alpine:3.8
 
 # Install software
 RUN apk update
-RUN apk add php
+RUN apk add php-cli php-apache2
+
+# Prep Apache
+RUN mkdir -p /run/apache2
+RUN echo "ServerName localhost" > /etc/apache2/conf.d/server-name.conf
 
 # Add dumb init to improve sig handling (stop time in CircleCI of 10sec is too slow)
 RUN wget -O /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.2/dumb-init_1.2.2_amd64
@@ -15,7 +19,8 @@ COPY bin /app/bin
 RUN chmod -R +x /app/bin
 
 # Copy contents of a web dir
-COPY web/* /root/
+RUN rm /var/www/localhost/htdocs/*
+COPY web/* /var/www/localhost/htdocs/
 
 EXPOSE 80
 
