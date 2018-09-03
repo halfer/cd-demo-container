@@ -111,6 +111,8 @@ I use a machine with 1G of RAM but you might get away with less than that. I use
 as it is popular and widely supported, but if you prefer something else (Fedora, Centos,
 Debian, etc) then go for it.
 
+If you're using Ubuntu, use the most recent stable Long Term Support version.
+
 ### Create an empty project in GitLab
 
 Your project URL will be `https://gitlab.com/username/cd-demo-container`, with the
@@ -129,6 +131,12 @@ You can probably leave these be (but change them if you know what you are doing)
     PROJECT_DOCKER_REGISTRY: registry.gitlab.com
     PROJECT_DOCKER_SERVICE_NAME: cd-demo
     PROJECT_DEPLOY_USER: root
+
+### Install Docker in the remote server
+
+For Ubuntu, I like to use the [Docker repository](https://download.docker.com/linux/ubuntu),
+since it is more up to date than the standard OS version, but use what works for you. Here
+are [the installation notes](https://docs.docker.com/install/linux/docker-ce/ubuntu/).
 
 ### Login to the Docker registry in the remote server
 
