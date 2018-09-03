@@ -14,7 +14,7 @@ during a container upgrade, traffic is automatically routed to a healthy running
 I am using these things:
 
 * PHP for scripting
-* The built-in PHP web-server
+* The Apache web-server
 * GitHub for version control (obviously `;-)`)
 * Docker to containerise the app
 * Alpine Linux as a lightweight container OS
