@@ -38,7 +38,7 @@ class AppTest extends TestCase
         // Now try copying it out
         $this->exec(
             sprintf(
-                'docker cp %:/tmp/home-page /tmp/home-page',
+                'docker cp %s:/tmp/home-page /tmp/home-page',
                 escapeshellarg($this->getRepoName())
             )
         );
