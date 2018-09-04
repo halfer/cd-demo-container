@@ -27,11 +27,30 @@ class AppTest extends TestCase
 
     protected function getWebPage()
     {
-        $output = $return = null;
-        $command = sprintf(
-            'docker exec -ti %s php -r "echo file_get_contents(\'http://localhost\');"',
-            escapeshellarg($this->getRepoName())
+        // Do the HTTP fetch first
+        $this->exec(
+            sprintf(
+                'docker exec -ti %s wget -qO- http://localhost > /tmp/home-page',
+                escapeshellarg($this->getRepoName())
+            )
         );
+
+        // Now try copying it out
+        $this->exec(
+            sprintf(
+                'docker cp %:/tmp/home-page /tmp/home-page',
+                escapeshellarg($this->getRepoName())
+            )
+        );
+        $html = file_get_contents('/tmp/home-page');
+
+        return $html;
+    }
+
+    protected function exec($command)
+    {
+        $output = $return = null;
+
         exec($command, $output, $return);
 
         // Check return value first
@@ -45,9 +64,7 @@ class AppTest extends TestCase
             );
         }
 
-        $imploded = implode(PHP_EOL, $output);
-
-        return $imploded;
+        return [$output, $return];
     }
 
     protected function getRepoName()
