@@ -30,7 +30,7 @@ class AppTest extends TestCase
         // Do the HTTP fetch first
         $this->exec(
             sprintf(
-                'docker exec -ti %s wget -qO- http://localhost > /tmp/home-page',
+                'docker exec -ti %s wget -O /tmp/home-page http://localhost',
                 escapeshellarg($this->getRepoName())
             )
         );
