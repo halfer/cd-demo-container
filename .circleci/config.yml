@@ -142,20 +142,3 @@ workflows:
           <<: *only-deploy-tags
           requires:
             - build
-# Scheduled builds
-# (Format: Minute hour DOM month DOW)
-workflows:
-  version: 2
-  commit-workflow:
-    jobs:
-      - build
-  daily-workflow-1:
-    triggers:
-      - schedule:
-          cron: "0 0,4,8,12,16,20 * * *"
-          filters:
-            branches:
-              only:
-                - master
-    jobs:
-      - build
