@@ -151,6 +151,9 @@ login operation:
 
     docker login --username halfercode registry.gitlab.com
 
+A hash of your credentials will be stored in `~/.docker` and thus will survive
+a system reboot.
+
 ### Generate deployment keys
 
 * Generate a SSH key pair
@@ -176,7 +179,7 @@ suitable replacements for the repo URL and container name etc):
         | head -n 1`
     DEPLOY_TAG=deploy-v${DEPLOY_VERSION}
 
-    # Start service
+    # Start service (if the image is not already pulled, this will do it for you)
     docker service create \
         --name cd-demo \
         --env CD_DEMO_VERSION=${DEPLOY_TAG} \
@@ -184,6 +187,9 @@ suitable replacements for the repo URL and container name etc):
         --with-registry-auth \
         --publish 80:80 \
         registry.gitlab.com/halfercode/cd-demo-container:${DEPLOY_TAG}
+
+Docker Swarm will restart your service(s) automatically if you reboot the host. Try that
+now, to make sure it works for you.
 
 ### Add a Git deployment tag
 
