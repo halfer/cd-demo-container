@@ -82,6 +82,7 @@ upon later if extra guidance is required.
 * Connect CircleCI to GitHub and start building the project
 * Customise the env vars in `config.yml` and push
 * Install Docker in the remote server
+* Create a registry token for CircleCI to do the image push
 * Login to the Docker registry in the remote server
 * Generate deployment keys
 * Initialise a Docker swarm (`docker swarm init`)
@@ -138,16 +139,35 @@ For Ubuntu, I like to use the [Docker repository](https://download.docker.com/li
 since it is more up to date than the standard OS version, but use what works for you. Here
 are [the installation notes](https://docs.docker.com/install/linux/docker-ce/ubuntu/).
 
-### Login to the Docker registry in the remote server
+### Create a registry token for CircleCI to do the image push
 
 Generate an [access token in GitLab](https://gitlab.com/profile/personal_access_tokens)
 with the "api" permission. I believe that's the only permission with write access,
-and unfortunately is not per-project. If you have high-value projects in GitLab,
-consider using a shorter expiry period, e.g. in a month or two.
+and unfortunately is not per-project. You can choose the name for the token, I suggest
+"cd-demo-write". If you have high-value projects in GitLab, consider using a shorter
+expiry period, or perhaps even sign up for a separate account.
 
-Then store the generated token somewhere safe, such as a password keeper. Finally,
-get a remote shell on the deployment target and enter the token in response to a
-login operation:
+Then store the generated token somewhere safe, such as a password keeper.
+
+Go to your project in CircleCI, click the cog icon, go to the "Environment Variables"
+section, and create a new key called `GITLAB_CDDEMO_REGISTRY_TOKEN`. Paste in the new
+token as the value of this variable.
+
+This will be used by the `docker login` command in the CircleCI config to obtain
+write access to your registry.
+
+### Login to the Docker registry in the remote server
+
+Generate an [access token in GitLab](https://gitlab.com/profile/personal_access_tokens)
+with the "read_registry" permission. This is a read-only permission and will be used
+to pull images on your remote server. You can choose the name for the token, I suggest
+"cd-demo-read-only"
+
+As before, it is a good idea to store the generated token somewhere safe, such as a
+password keeper.
+
+Finally, get a remote shell on the deployment target and enter the token in response to
+a login operation:
 
     docker login --username halfercode registry.gitlab.com
 
