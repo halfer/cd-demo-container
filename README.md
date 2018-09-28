@@ -161,7 +161,9 @@ write access to your registry.
 Generate an [access token in GitLab](https://gitlab.com/profile/personal_access_tokens)
 with the "read_registry" permission. This is a read-only permission and will be used
 to pull images on your remote server. You can choose the name for the token, I suggest
-"cd-demo-read-only"
+"cd-demo-read-only". It's worth noting that while you can reuse your read/write
+token here, it is better from a security perspective to only give the permissions
+that are actually needed.
 
 As before, it is a good idea to store the generated token somewhere safe, such as a
 password keeper.
